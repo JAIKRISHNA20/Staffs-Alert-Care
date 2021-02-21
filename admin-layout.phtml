@@ -1,0 +1,219 @@
+<?php 
+	$controller = Zend_Controller_Front::getInstance()->getRequest()->getControllerName();
+	$action = Zend_Controller_Front::getInstance()->getRequest()->getActionName();
+	//echo $this->httphost; exit;
+?>
+<!doctype html>
+<html class="no-js">
+   <head>
+		<title>Employee Wellness Care</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <link rel="stylesheet" href="<?php echo $this->httphost; ?>html/css/bootstrap.min.css" />
+      <link rel="stylesheet" href="<?php echo $this->httphost; ?>html/font-awesome/4.5.0/css/font-awesome.min.css" />
+      <link rel="stylesheet" href="<?php echo $this->httphost; ?>html/css/fonts.googleapis.com.css" />
+      <link rel="stylesheet" href="<?php echo $this->httphost; ?>html/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
+      <link rel="stylesheet" href="<?php echo $this->httphost; ?>html/css/ace-skins.min.css" />
+      <link rel="stylesheet" href="<?php echo $this->httphost; ?>html/css/ace-rtl.min.css" />
+      <script src="<?php echo $this->httphost; ?>html//js/jquery-2.1.4.min.js"></script>
+	  <script src="<?php echo $this->httphost; ?>html/js/ace-extra.min.js"></script> 
+		  <link rel="stylesheet" href="<?php echo $this->httphost; ?>html/css/bootstrap-datepicker3.min.css" />
+		  <script src="<?php echo $this->httphost; ?>html/js/bootstrap-datepicker.min.js"></script> 
+   </head>
+   <body class="no-skin">
+      <div id="navbar" class="navbar navbar-default ace-save-state">
+         <div class="navbar-container ace-save-state" id="navbar-container">
+            <button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
+            <span class="sr-only">Toggle sidebar</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <div class="navbar-header pull-left">
+               <a href="
+                  <?php if($this->adminidentity->userId) echo $this->httphost; else echo "javascript:void(0);"; ?>" class="navbar-brand">
+               <small>Staff Alerts & Care </small>
+               </a>
+            </div>
+            <?php  if($this->adminidentity->userId){ ?>
+            <div class="navbar-buttons navbar-header pull-right hide" role="navigation">
+               <ul class="nav ace-nav">
+                  <li class="light-blue dropdown-modal">
+                     <a data-toggle="dropdown" href="#" class="dropdown-toggle">
+                     <span class="user-info">
+                     <small>Welcome,</small>
+                     <?php echo ucfirst($this->adminidentity->userName);?>
+                     </span>
+                     <i class="ace-icon fa fa-caret-down"></i>
+                     </a>
+                     <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+                        <li class="divider"></li>
+                        <li>
+                           <a href="<?php echo $this->httphost; ?>index/logout">
+                           <i class="ace-icon fa fa-power-off"></i> Logout
+                           </a>
+                        </li>
+                     </ul>
+                  </li>
+               </ul>
+            </div>
+            <?php } ?>
+         </div>
+      </div>
+      <div class="main-container ace-save-state" id="main-container" <?php if(!$this->adminidentity->userId) echo 'style="background-color:transparent;"'; ?>>
+         <script type="text/javascript">
+            try {
+                ace.settings.loadState('main-container')
+            } catch (e) {}
+         </script>
+         <?php if($this->adminidentity->userId){ ?>
+         <div id="sidebar" class="sidebar responsive ace-save-state" style="width: 190px !important;">
+            <script type="text/javascript">
+               try {
+                   ace.settings.loadState('sidebar')
+               } catch (e) {}
+            </script>
+            <ul class="nav nav-list">
+			 <?php if($this->adminidentity->userType && $this->adminidentity->userType == "A") { ?>
+            <li class="<?php if($controller == 'employees' ) echo " active "; ?> open">
+				<a href="#" class="dropdown-toggle">
+					<i class="menu-icon fa fa-desktop"></i> <span class="menu-text"> Employees </span><b class="arrow fa fa-angle-down"></b>
+				</a>
+				<b class="arrow"></b>
+				<ul class="submenu">
+                  <li class="
+                     <?php if($controller == 'employees' && ($action == 'new'  || $action == 'edit' )) echo " active  "; ?> open">
+                     <a href="<?php echo $this->httphost; ?>employees/new">
+                     <i class="menu-icon fa fa-desktop"></i> New Employee
+                     </a>
+                     <b class="arrow"></b>
+                  </li>
+                  <li class="
+                     <?php if($controller == 'employees' && $action == 'index' ) echo " active  "; ?> open">
+                     <a href="<?php echo $this->httphost; ?>employees/index">
+                     <i class="menu-icon fa fa-caret-right"></i> Manage Employees
+                     </a>
+                     <b class="arrow"></b>
+                  </li>
+               </ul>
+            </li>			
+            <li class="<?php if($controller == 'employees' ) echo " active "; ?> open">
+				<a href="#" class="dropdown-toggle">
+					<i class="menu-icon fa fa-desktop"></i> <span class="menu-text"> Notifications </span><b class="arrow fa fa-angle-down"></b>
+				</a>
+				<b class="arrow"></b>
+				<ul class="submenu">
+                  <li class="
+                     <?php if($controller == 'employees' && ($action == 'notify' )) echo " active  "; ?> open">
+                     <a href="<?php echo $this->httphost; ?>employees/notify">
+                     <i class="menu-icon fa fa-desktop"></i> Sent Notification
+                     </a>
+                     <b class="arrow"></b>
+                  </li>
+                  <li class="
+                     <?php if($controller == 'employees' && $action == 'notifylist' ) echo " active  "; ?> open">
+                     <a href="<?php echo $this->httphost; ?>employees/notifylist">
+                     <i class="menu-icon fa fa-caret-right"></i> Manage Notification
+                     </a>
+                     <b class="arrow"></b>
+                  </li>
+               </ul>
+            </li>
+			 <?php } else { ?>
+			 <li class="<?php if($controller == 'care' && $action == 'index' ) echo " active open"; ?> ">
+				<a href="<?php echo $this->httphost; ?>care/index" >
+					<i class="menu-icon fa fa-desktop"></i> <span class="menu-text"> Employee Status</span><b class="arrow fa fa-angle-right"></b>
+				</a>
+			</li>
+			 <li class="<?php if($controller == 'care' && $action == 'history' ) echo " active open"; ?> ">
+				<a href="<?php echo $this->httphost; ?>care/history">
+					<i class="menu-icon fa fa-desktop"></i> <span class="menu-text"> Employee History</span><b class="arrow fa fa-angle-right"></b>
+				</a>
+			</li>
+			 <li class="<?php if($controller == 'care' && $action == 'docslist' ) echo " active open"; ?> ">
+				<a href="<?php echo $this->httphost; ?>care/docslist">
+					<i class="menu-icon fa fa-desktop"></i> <span class="menu-text"> Employee docs</span><b class="arrow fa fa-angle-right"></b>
+				</a>
+			</li>			
+			<li>
+				<a href="<?php echo $this->httphost; ?>care/notifylist">
+					<i class="menu-icon fa fa-desktop"></i> Notifications
+				</a>
+			</li>
+			<?php } ?>
+			<li>
+				<a href="<?php echo $this->httphost; ?>index/logout">
+					<i class="menu-icon fa fa-cog"></i> Logout
+				</a>
+			</li>
+            <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+               <i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+            </div>
+         </div>
+         <?php } ?>
+         <div class="main-content">
+            <div class="main-content-inner">
+               <div class="page-content" <?php if(!$this->adminidentity->userId) echo 'style="background-color:transparent;"'; ?>>
+                  <?php echo $this->layout()->content; ?>
+               </div>
+            </div>
+         </div>
+         
+         <script type="text/javascript">
+            if ('ontouchstart' in document.documentElement) {
+				document.write("<script src='<?php echo $this->httphost; ?>html/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
+            }
+         </script>
+         <script type="text/javascript" src="<?php echo $this->httphost; ?>html/js/bootstrap.min.js"></script>
+         <script type="text/javascript" src="<?php echo $this->httphost; ?>html/js/jquery-ui.custom.min.js"></script>
+         <script type="text/javascript" src="<?php echo $this->httphost; ?>html/js/jquery.ui.touch-punch.min.js"></script>
+         <script type="text/javascript" src="<?php echo $this->httphost; ?>html/js/ace-elements.min.js"></script>
+         <script type="text/javascript" src="<?php echo $this->httphost; ?>html/js/ace.min.js"></script>
+         <script type="text/javascript" src="<?php echo $this->httphost; ?>html/js/jquery.validate.js"></script>
+         <script type="text/javascript" src="<?php echo $this->httphost; ?>html/js/validate_custom.js"></script>
+      </div>
+      <script>
+         var specialKeys = new Array();
+         		specialKeys.push(8); //Backspace
+         		specialKeys.push(46); //Delete
+         		specialKeys.push(36); //Home
+         		specialKeys.push(35); //End
+         		specialKeys.push(37); //Left
+         		specialKeys.push(39); //Right
+               function IsAlphaNumeric(e) {
+                   var keyCode = e.keyCode == 0 ? e.charCode : e.keyCode;       
+         	//Caps (keyCode >= 65 && keyCode <= 90) 
+                   var ret = ((keyCode >= 48 && keyCode <= 57) || (keyCode >= 97 && keyCode <= 122) || (specialKeys.indexOf(e.keyCode) != -1 && e.charCode != e.keyCode));
+                   return ret;
+               } 
+         function IsMobile(e) {
+                   var keyCode = e.keyCode == 0 ? e.charCode : e.keyCode;
+                   var ret = ((keyCode >= 48 && keyCode <= 57) || (specialKeys.indexOf(e.keyCode) != -1 && e.charCode != e.keyCode));
+                   return ret;
+               }
+         
+         $(document).ready(function() {
+         	
+         });
+         
+         			
+      </script>
+	  
+<script>
+	$( document ).ready(function() {
+		$( ".datepicker" ).datepicker({
+			format: 'yyyy-mm-dd',
+			showOtherMonths: true,
+			selectOtherMonths: false,
+			autoclose: 'true',
+		});
+		$(".allownumericwithoutdecimal").on("keypress keyup blur",function (event) {    
+				   $(this).val($(this).val().replace(/[^\d].+/, ""));
+					if ((event.which < 48 || event.which > 57)) {
+						event.preventDefault();
+					}
+				});
+	});
+	
+</script>
+   </body>
+</html>
